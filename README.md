@@ -2,165 +2,96 @@
   <img src="https://danbai-cloud.oss-cn-chengdu.aliyuncs.com/uploads%2F2021%2F09%2F10%2FIqxt9OW6_icon.png" width="224px"/><br/>
   Create Go App tipBar
 </h1>
-<p align="center">这是一个任务栏工具模块集成框架，它基于 <b>Golang</b> 开发。任务跨平台实现基于 <a target="_blank" href="https://github.com/getlantern/systray">systray</a> 提示弹窗输入框等组件基于<a target="_blank" href="https://github.com/ncruces/zenity">zenity</a>，快来开发属于你的任务栏工具吧。</p>
+<p align="center">
+这是一个任务栏工具开发框架，它基于 <b>Golang</b> 开发。任务栏跨平台实现基于<a target="_blank" href="https://github.com/getlantern/systray">systray</a>
+提示弹窗输入框等组件基于<a target="_blank" href="https://github.com/ncruces/zenity">zenity</a>，采用模块集成，快来开发属于你的任务栏工具吧。</p>
 
-<p align="center"><a href="https://github.com/danbai225/tipbar" target="_blank"><img src="https://img.shields.io/badge/version-v0.0.1-blue?style=for-the-badge&logo=none" alt="tipBar version" /></a>&nbsp;<a href="https://pkg.go.dev/github.com/danbai225/tipbar?tab=doc" target="_blank"><img src="https://img.shields.io/badge/Go-1.17+-00ADD8?style=for-the-badge&logo=go" alt="go version" /></a>&nbsp;<a href="https://gocover.io/github.com/danbai225/tipbar" target="_blank"><img src="https://img.shields.io/badge/Go_Cover-89.2%25-success?style=for-the-badge&logo=none" alt="go cover" /></a>&nbsp;<a href="https://goreportcard.com/report/github.com/danbai225/tipbar" target="_blank"><img src="https://img.shields.io/badge/Go_report-A+-success?style=for-the-badge&logo=none" alt="go report" /></a>&nbsp;<img src="https://img.shields.io/badge/license-MIT-red?style=for-the-badge&logo=none" alt="license" /></p>
+<p align="center">
+<a href="https://github.com/danbai225/tipbar" target="_blank">
+<img src="https://img.shields.io/badge/version-v0.0.1-blue?style=for-the-badge&logo=none" alt="tipBar version" />
+</a>&nbsp;<a href="https://pkg.go.dev/github.com/danbai225/tipbar?tab=doc" target="_blank">
+<img src="https://img.shields.io/badge/Go-1.17+-00ADD8?style=for-the-badge&logo=go" alt="go version" /></a>&nbsp;
+<a href="https://gocover.io/github.com/danbai225/tipbar" target="_blank"><img src="https://img.shields.io/badge/Go_Cover-89.2%25-success?style=for-the-badge&logo=none" alt="go cover" />
+</a>&nbsp;<a href="https://goreportcard.com/report/github.com/danbai225/tipbar" target="_blank">
+<img src="https://img.shields.io/badge/Go_report-A+-success?style=for-the-badge&logo=none" alt="go report" />
+</a>&nbsp;<img src="https://img.shields.io/badge/license-MIT-red?style=for-the-badge&logo=none" alt="license" /></p>
 
 ## ⚡️ 快速开始
-
-First of all, [download](https://golang.org/dl/) and install **Go**. Version `1.17` or higher is required.
-
-> If you're looking for the **Create Go App CLI** for Go `1.16`, you can find it [here](https://github.com/create-go-app/cli/tree/v2).
-
-Installation is done by using the [`go install`](https://golang.org/cmd/go/#hdr-Compile_and_install_packages_and_dependencies) command and rename installed binary in `$GOPATH/bin`:
-
+在你的项目中添加依赖
 ```bash
-go install github.com/create-go-app/cli/v3/cmd/cgapp
+go get github.com/danbai225/tipbar
+```
+`main.go`
+
+```Go
+package main
+import (
+  logs "github.com/danbai225/go-logs"
+  "github.com/danbai225/tipbar/core"
+  "github.com/danbai225/tipbar/example/module/hello"
+  "os"
+)
+
+func main() {
+  var a *core.App
+  var err error
+  //指定配置文件参数 默认读取当前文件夹下config.json
+  if len(os.Args) > 1 {
+    a, err = core.NewApp(os.Args[1])
+  } else {
+    a, err = core.NewApp()
+  }
+  if err != nil {
+    logs.Err(err)
+    return
+  }
+  //注册模块
+  a.RegisterModule(
+    hello.ExportModule(),
+  )
+  err = a.Run()
+  if err != nil {
+    logs.Err(err)
+    return
+  }
+}
+```
+`config.json`
+
+```json
+{
+  "module": {
+    "hello": {
+      "enable": true,
+      "config": null
+    }
+  },
+  "http_port": 7989,
+  "logs_dir": "./logs"
+}
 ```
 
-Also, macOS and GNU/Linux users available way to install via [Homebrew](https://brew.sh/):
+其中 `module.hello`是模块名，`enable`是`false`或不存在都不会启用这个模块
 
-```bash
-# Tap a new formula:
-brew tap create-go-app/cli
+`logs`是日志输出目录 采用 `github.com/danbai225/go-logs` 作为日志输出
 
-# Installation:
-brew install create-go-app/cli/cgapp
-```
+## 运行
 
-Let's create a new project via **interactive console UI** (or **CUI** for short) in current folder:
+- 根据上面快速开始构建一个项目
+- 使用本项目demo运行，拉去项目后进入项目目录执行`cd example && go run main.go`
 
-```bash
-cgapp create
-```
+运行后日志会输出一些 `http` 路由,任务栏会出现一个图标点击会显示注册的模块。
 
-Next, open the generated Ansible inventory file (called `hosts.ini`) and fill in the variables according to your server configuration. And you're ready to **automatically deploy** this project:
+![img.png](img/img.png)
 
-```bash
-cgapp deploy
-```
+# 开发文档
 
-That's all you need to know to start! 🎉
+todo
 
-### 🐳 Docker-way to quick start
+介绍一些开发结
 
-If you don't want to install Create Go App CLI to your system, you feel free to using our official [Docker image](https://hub.docker.com/r/koddr/cgapp) and run CLI from isolated container:
+#模块
 
-```bash
-docker run --rm -it -v ${PWD}:${PWD} -w ${PWD} koddr/cgapp:latest [COMMAND]
-```
-
-> 🔔 Please note: the `deploy` command is currently **unavailable** in this image.
-
-## 📖 Project Wiki
-
-The best way to better explore all the features of the **Create Go App CLI** is to read the project [Wiki](https://github.com/create-go-app/cli/wiki) and take part in [Discussions](https://github.com/create-go-app/cli/discussions) and/or [Issues](https://github.com/create-go-app/cli/issues). Yes, the most frequently asked questions (_FAQ_) are also [here](https://github.com/create-go-app/cli/wiki/FAQ).
-
-## ⚙️ Commands & Options
-
-### `create`
-
-CLI command for create a new project with the interactive console UI.
-
-```bash
-cgapp create [OPTION]
-```
-
-| Option | Description                                              | Type   | Default | Required? |
-| ------ | -------------------------------------------------------- | ------ | ------- | --------- |
-| `-t`   | Enables to define custom backend and frontend templates. | `bool` | `false` | No        |
-
-![cgapp_create](https://user-images.githubusercontent.com/11155743/116796937-38160080-aae9-11eb-8e21-fb1be2750aa4.gif)
-
-- 📺 Full demo video: https://recordit.co/OQAwkZBrjN
-- 📖 Docs: https://github.com/create-go-app/cli/wiki/Command-create
-
-### `deploy`
-
-CLI command for deploy Docker containers with your project via Ansible to the remote server.
-
-> 🔔 Make sure that you have [Python 3.8+](https://www.python.org/downloads/) and [Ansible 2.9+](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-ansible-on-specific-operating-systems) installed on your computer.
-
-```bash
-cgapp deploy [OPTION]
-```
-
-| Option | Description                                                                                            | Type   | Default | Required? |
-| ------ | ------------------------------------------------------------------------------------------------------ | ------ | ------- | --------- |
-| `-k`   | Prompt you to provide the remote user sudo password (_a standard Ansible `--ask-become-pass` option_). | `bool` | `false` | No        |
-
-![cgapp_deploy](https://user-images.githubusercontent.com/11155743/116796941-3c421e00-aae9-11eb-9575-d72550814d7a.gif)
-
-- 📺 Full demo video: https://recordit.co/ishTf0Au1x
-- 📖 Docs: https://github.com/create-go-app/cli/wiki/Command-deploy
-
-## 📝 Production-ready project templates
-
-### Backend
-
-- Backend template with Golang built-in [net/http](https://golang.org/pkg/net/http/) package:
-    - [`net/http`](https://github.com/create-go-app/net_http-go-template) — simple REST API with CRUD and JWT auth.
-- Backend template with [Fiber](https://github.com/gofiber/fiber):
-    - [`fiber`](https://github.com/create-go-app/fiber-go-template) — complex REST API with CRUD, JWT auth with renew token, DB and cache.
-
-### Frontend
-
-- Pure JavaScript frontend template:
-    - `vanilla` — generated template with pure JavaScript app.
-    - `vanilla-ts` — generated template with pure TypeScript app.
-- Frontend template with [React](https://reactjs.org/):
-    - `react` — generated template with a common React app.
-    - `react-ts` — generated template with a TypeScript version of the React app.
-- Frontend template with [Preact](https://preactjs.com/):
-    - `preact` — generated template with a common Preact app.
-    - `preact-ts` — generated template with a TypeScript version of the Preact app.
-- Frontend template with [Vue.js](https://vuejs.org/):
-    - `vue` — generated template with a common Vue.js app.
-    - `vue-ts` — generated template with a TypeScript version of the Vue.js app.
-- Frontend template with [Svelte](https://svelte.dev/):
-    - `svelte` — generated template with a common Svelte app.
-    - `svelte-ts` — generated template with a TypeScript version of the Svelte app.
-- Frontend template with [Lit](https://lit.dev/) web components:
-    - `lit-element` — generated template with a common Lit app.
-    - `lit-element-ts` — generated template a TypeScript version of the Lit app.
-
-> ☝️ Frontend part will be generate using awesome tool [Vite.js](https://vitejs.dev/) under the hood. So, you'll always get the latest version of `React`, `Preact`, `Vue`, `Svelte`, `Lit` or pure JavaScript/TypeScript templates for your project!
->
-> Please make sure that you have `npm` version `7` or higher installed in order to create the frontend part of the project correctly. If you run the `cgapp create` command using our [Docker image](https://hub.docker.com/r/koddr/cgapp), `npm` of the correct version is **already** included.
-
-## 🚚 Pre-configured Ansible roles
-
-### Web/Proxy server
-
-- Roles for run Docker container with [Traefik Proxy](https://traefik.io/traefik/):
-    - `traefik` — configured Traefik container with a simple ACME challenge via CA server.
-    - `traefik-acme-dns` — configured Traefik container with a complex ACME challenge via DNS provider.
-- Roles for run Docker container with [Nginx](https://nginx.org):
-    - `nginx` — pure Nginx container with "the best practice" configuration.
-
-> ✌️ Since Create Go App CLI `v2.0.0`, we're recommend to use **Traefik Proxy** as default proxy server for your projects. The main reason: this proxy provides _automatic_ SSL certificates from Let's Encrypt out of the box. Also, Traefik was built on the Docker ecosystem and has a _really good looking_ and _useful_ Web UI.
-
-### Database
-
-- Roles for run Docker container with [PostgreSQL](https://postgresql.org/):
-    - `postgres` — configured PostgreSQL container with apply migrations for backend.
-
-### Cache (key-value storage)
-
-- Roles for run Docker container with [Redis](https://redis.io/):
-    - `redis` — configured Redis container for backend.
-
-## ⭐️ Project assistance
-
-If you want to say **thank you** or/and support active development of `Create Go App CLI`:
-
-- Add a [GitHub Star](https://github.com/create-go-app/cli) to the project.
-- Tweet about project [on your Twitter](https://twitter.com/intent/tweet?text=%E2%9C%A8%20Create%20a%20new%20production-ready%20project%20with%20%23Golang%20backend%2C%20%23JavaScript%20or%20%23TypeScript%20frontend%2C%20%23Docker%20and%20%23Ansible%20deploy%20automation%20by%20running%20one%20command.%20%0A%0AFocus%20on%20writing%20code%20and%20thinking%20of%20business-logic%21%0AThe%20CLI%20will%20take%20care%20of%20the%20rest.%0A%0Ahttps%3A%2F%2Fgithub.com%2Fcreate-go-app%2Fcli).
-- Write interesting articles about project on [Dev.to](https://dev.to/), [Medium](https://medium.com/) or personal blog.
-- Join DigitalOcean at our [referral link](https://m.do.co/c/b41859fa9b6e) (your profit is **$100** and we get $25).
-
-Together, we can make this project **better** every day! 😘
-
-## ⚠️ License
-
-`Create Go App CLI` is free and open-source software licensed under the [Apache 2.0 License](https://github.com/create-go-app/cli/blob/master/LICENSE). Official [logo](https://github.com/create-go-app/cli/wiki/Logo) was created by [Vic Shóstak](https://shostak.dev/) and distributed under [Creative Commons](https://creativecommons.org/licenses/by-sa/4.0/) license (CC BY-SA 4.0 International).
+- 将粘贴板中的代码转换成图片的模块 [code2img](https://github.com/danbai225/down_tip/tree/main/module/code2img)
+- 天气和预警 [weather](https://github.com/danbai225/down_tip/tree/main/module/weather)
+- 键盘按键次数统计 [keylog](https://github.com/danbai225/down_tip/tree/main/module/keylog)

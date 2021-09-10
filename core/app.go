@@ -170,6 +170,7 @@ func (a *App) RegisterModule(module ...*Module) {
 
 //</editor-fold>
 
+// NewModule name是该模块的名字 itemName是显示在任务栏的名字 tooltip是鼠标移动到该模块子项时提示的文字 onReady是初始化完成后执行的函数 exit是退出时执行的函数 route是http录音函数
 func NewModule(name, itemName, tooltip string, onReady func(item *systray.MenuItem), exit func(), route func(*ghttp.RouterGroup)) *Module {
 	module := Module{name: name, itemName: itemName, tooltip: tooltip}
 	module.onReady = onReady

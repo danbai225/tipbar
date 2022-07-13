@@ -35,7 +35,7 @@ func NewApp(configPath ...string) (*App, error) {
 	app := App{config: config{configName: configP},
 		title: make([]*title, 0), module: make([]*Module, 0), tip: make(chan tip, 10),
 		index: func(r *ghttp.Request) {
-			r.Response.Write("hello downTip")
+			r.Response.Write("Hello TipBar")
 		},
 	}
 	//加载配置
@@ -134,7 +134,7 @@ func (a *App) onReady() {
 			go module.onReady(item)
 		}
 	}
-	systray.SetTooltip("关于这个程序。。。")
+	systray.SetTooltip("By TipBar APP")
 	quit := systray.AddMenuItem("Quit", "退出这个程序")
 	go func() {
 		<-quit.ClickedCh

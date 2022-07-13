@@ -3,10 +3,10 @@ module github.com/danbai225/tipbar
 go 1.17
 
 require (
-	github.com/danbai225/go-logs v0.1.3
+	github.com/danbai225/go-logs v0.1.4
 	github.com/getlantern/systray v1.2.1
-	github.com/gogf/gf v1.16.8
-	github.com/ncruces/zenity v0.8.6
+	github.com/gogf/gf v1.16.9
+	github.com/ncruces/zenity v0.8.9
 )
 
 require (
@@ -24,13 +24,13 @@ require (
 	github.com/getlantern/ops v0.0.0-20190325191751-d70cb0d6f85f // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
-	github.com/goccy/go-json v0.9.4 // indirect
+	github.com/goccy/go-json v0.7.4 // indirect
 	github.com/gomodule/redigo v1.8.5 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/grokify/html-strip-tags-go v0.0.1 // indirect
 	github.com/josephspurrier/goversioninfo v1.4.0 // indirect
-	github.com/kpango/fastime v1.1.4 // indirect
-	github.com/kpango/glg v1.6.10 // indirect
+	github.com/kpango/fastime v1.0.17 // indirect
+	github.com/kpango/glg v1.6.4 // indirect
 	github.com/mattn/go-colorable v0.1.8 // indirect
 	github.com/mattn/go-isatty v0.0.12 // indirect
 	github.com/mattn/go-runewidth v0.0.9 // indirect
@@ -39,9 +39,9 @@ require (
 	github.com/randall77/makefat v0.0.0-20210315173500-7ddd0e42c844 // indirect
 	go.opentelemetry.io/otel v1.0.0 // indirect
 	go.opentelemetry.io/otel/trace v1.0.0 // indirect
-	golang.org/x/image v0.0.0-20220413100746-70e8d0d3baa9 // indirect
+	golang.org/x/image v0.0.0-20220617043117-41969df76e82 // indirect
 	golang.org/x/net v0.0.0-20210520170846-37e1c6afe023 // indirect
-	golang.org/x/sys v0.0.0-20220502124256-b6088ccd6cba // indirect
-	golang.org/x/text v0.3.6 // indirect
+	golang.org/x/sys v0.0.0-20220627191245-f75cf1eec38b // indirect
+	golang.org/x/text v0.3.7 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )

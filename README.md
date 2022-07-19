@@ -86,12 +86,12 @@ func main() {
 
 # 开发文档
 
-todo
+- 辅助操作(https://github.com/ncruces/zenity/wiki/)
 
-介绍一些开发结
 
 # 模块
 
 - 将粘贴板中的代码转换成图片的模块 [code2img](https://github.com/danbai225/down_tip/tree/main/module/code2img)
 - 天气和预警 [weather](https://github.com/danbai225/down_tip/tree/main/module/weather)
 - 键盘按键次数统计 [keylog](https://github.com/danbai225/down_tip/tree/main/module/keylog)
+

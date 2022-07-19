@@ -91,6 +91,15 @@ func (a *App) Run() error {
 			}
 		}
 	}
+	go func() {
+		// 优雅关闭
+		NewHook().Close(
+			func() {
+				_ = a.g.Shutdown()
+				systray.Quit()
+			},
+		)
+	}()
 	//运行主体
 	systray.Run(a.onReady, a.exit)
 	return nil

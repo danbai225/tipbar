@@ -3,8 +3,8 @@ package core
 import (
 	_ "embed"
 	"fmt"
+	"fyne.io/systray"
 	logs "github.com/danbai225/go-logs"
-	"github.com/getlantern/systray"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/ncruces/zenity"

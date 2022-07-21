@@ -2,9 +2,9 @@ package hello
 
 import (
 	"fmt"
+	"fyne.io/systray"
 	logs "github.com/danbai225/go-logs"
 	"github.com/danbai225/tipbar/core"
-	"github.com/getlantern/systray"
 	"github.com/gogf/gf/net/ghttp"
 )
 

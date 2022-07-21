@@ -3,7 +3,7 @@
   Create Go App tipBar
 </h1>
 <p align="center">
-这是一个任务栏工具开发框架，它基于 <b>Golang</b> 开发。任务栏跨平台实现基于<a target="_blank" href="https://github.com/getlantern/systray">systray</a>
+这是一个任务栏工具开发框架，它基于 <b>Golang</b> 开发。任务栏跨平台实现基于<a target="_blank" href="https://fyne.io/systray">systray</a>
 提示弹窗输入框等组件基于<a target="_blank" href="https://github.com/ncruces/zenity">zenity</a>，采用模块集成，快来开发属于你的任务栏工具吧。</p>
 
 <p align="center">

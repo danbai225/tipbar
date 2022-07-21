@@ -86,12 +86,42 @@ func main() {
 
 # 开发文档
 
-todo
-
-介绍一些开发结
+- 辅助操作(https://github.com/ncruces/zenity/wiki/)
 
 # 模块
 
 - 将粘贴板中的代码转换成图片的模块 [code2img](https://github.com/danbai225/down_tip/tree/main/module/code2img)
 - 天气和预警 [weather](https://github.com/danbai225/down_tip/tree/main/module/weather)
 - 键盘按键次数统计 [keylog](https://github.com/danbai225/down_tip/tree/main/module/keylog)
+
+## 辅助操作
+
+```go
+
+    zenity.Info("你好") //提示框
+	
+	items, err := zenity.ListItems("请选择", "321", "123") //选择框
+	if err == nil {
+		logs.Info(items)
+	}
+
+	file, err := zenity.SelectFile() //文件选择
+	if err == nil {
+		logs.Info(file)
+	}
+
+	progress, err := zenity.Progress() //进度条
+	progress.Text("下载中")
+	for i := 0; i <= 100; i++ {
+		_ = progress.Value(i)
+		time.Sleep(time.Millisecond * 100)
+		if progress.MaxValue() == i {
+			_ = progress.Close()
+		}
+	}
+
+	entry, err := zenity.Entry("请输入用户名") //输入框
+	if err == nil {
+		logs.Info(entry)
+	}
+```

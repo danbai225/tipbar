@@ -1,0 +1,9 @@
+{
+  "module": {
+    "hello": {
+      "enable": true
+    }
+  },
+  "http_port": 7989,
+  "logs_dir": "./logs"
+}

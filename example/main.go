@@ -12,9 +12,9 @@ func main() {
 	var err error
 	//指定配置文件参数 默认读取当前文件夹下config.json
 	if len(os.Args) > 1 {
-		a, err = core.NewApp(os.Args[1])
+		a, err = core.NewApp(nil, os.Args[1], "TipBar", "v0.0.1", nil)
 	} else {
-		a, err = core.NewApp()
+		a, err = core.NewApp(nil, "", "TipBar", "v0.0.1", nil)
 	}
 	if err != nil {
 		logs.Err(err)

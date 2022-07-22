@@ -24,19 +24,29 @@ type App struct {
 	tip       chan tip
 	titleLock sync.Mutex
 	g         *ghttp.Server
+	name      string
+	version   string
+	ico       []byte
 	index     func(r *ghttp.Request)
 }
 
-func NewApp(configPath ...string) (*App, error) {
+func NewApp(index func(r *ghttp.Request), configPath, name, version string, ioc []byte) (*App, error) {
 	configP := "config.json"
-	if len(configPath) > 0 {
-		configP = configPath[0]
+	if configPath != "" {
+		configP = configPath
+	}
+	ih := func(r *ghttp.Request) {
+		r.Response.Write(fmt.Sprintf("Hello %s", name))
+	}
+	if index != nil {
+		ih = index
 	}
 	app := App{config: config{configName: configP},
 		title: make([]*title, 0), module: make([]*Module, 0), tip: make(chan tip, 10),
-		index: func(r *ghttp.Request) {
-			r.Response.Write("Hello TipBar")
-		},
+		index:   ih,
+		version: version,
+		name:    name,
+		ico:     ioc,
 	}
 	//加载配置
 	err := app.config.load()
@@ -130,9 +140,12 @@ func middlewareCORS(r *ghttp.Request) {
 	r.Middleware.Next()
 }
 func (a *App) onReady() {
-	logs.Info("程序启动")
 	//设置程序基本图标等等。。
-	systray.SetTemplateIcon(iconBs, iconBs)
+	if a.ico != nil {
+		systray.SetTemplateIcon(a.ico, a.ico)
+	} else {
+		systray.SetTemplateIcon(iconBs, iconBs)
+	}
 	//运行http
 	a.g.BindHandler("/", a.index)
 	// 跨域
@@ -143,8 +156,8 @@ func (a *App) onReady() {
 			go module.onReady(item)
 		}
 	}
-	systray.SetTooltip("By TipBar APP")
-	quit := systray.AddMenuItem("Quit", "退出这个程序")
+	systray.SetTooltip(fmt.Sprintf("%s\n版本号:%s", a.name, a.version))
+	quit := systray.AddMenuItem("退出", "退出程序")
 	go func() {
 		<-quit.ClickedCh
 		systray.Quit()
@@ -164,7 +177,6 @@ func (a *App) exit() {
 	if err != nil {
 		logs.Err(err)
 	}
-	logs.Info("程序退出")
 }
 func (a *App) RegisterModule(module ...*Module) {
 	for i := range module {
@@ -247,6 +259,12 @@ func (m *Module) SaveConfig(c interface{}) {
 }
 func (m *Module) GetRootUrl() string {
 	return fmt.Sprintf("http://localhost:%d/%s", m.Port, m.name)
+}
+func (m *Module) GetAPPName() string {
+	return m.app.name
+}
+func (m *Module) GetAPPVersion() string {
+	return m.app.version
 }
 
 //</editor-fold>

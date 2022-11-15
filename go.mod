@@ -7,6 +7,7 @@ require (
 	github.com/danbai225/go-logs v0.1.5
 	github.com/gogf/gf v1.16.9
 	github.com/ncruces/zenity v0.8.9
+	github.com/robotn/gohook v0.40.0
 )
 
 require (
@@ -31,6 +32,7 @@ require (
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/randall77/makefat v0.0.0-20210315173500-7ddd0e42c844 // indirect
 	github.com/tevino/abool v1.2.0 // indirect
+	github.com/vcaesar/keycode v0.10.0 // indirect
 	go.opentelemetry.io/otel v1.0.0 // indirect
 	go.opentelemetry.io/otel/trace v1.0.0 // indirect
 	golang.org/x/image v0.0.0-20220617043117-41969df76e82 // indirect

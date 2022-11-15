@@ -8,6 +8,7 @@ import (
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/ncruces/zenity"
+	ghook "github.com/robotn/gohook"
 	"sync"
 	"time"
 )
@@ -18,16 +19,17 @@ var iconBs []byte
 //<editor-fold desc="APP主体结构体">
 
 type App struct {
-	title     []*title
-	module    []*Module
-	config    config
-	tip       chan tip
-	titleLock sync.Mutex
-	g         *ghttp.Server
-	name      string
-	version   string
-	ico       []byte
-	index     func(r *ghttp.Request)
+	title        []*title
+	module       []*Module
+	EventRegList []chan ghook.Event
+	config       config
+	tip          chan tip
+	titleLock    sync.Mutex
+	g            *ghttp.Server
+	name         string
+	version      string
+	ico          []byte
+	index        func(r *ghttp.Request)
 }
 
 func NewApp(index func(r *ghttp.Request), configPath, name, version string, ioc []byte) (*App, error) {
@@ -110,6 +112,15 @@ func (a *App) Run() error {
 			},
 		)
 	}()
+	//按键监听
+	go func() {
+		EvChan := ghook.Start()
+		for ev := range EvChan {
+			for _, events := range a.EventRegList {
+				events <- ev
+			}
+		}
+	}()
 	//运行主体
 	systray.Run(a.onReady, a.exit)
 	return nil
@@ -168,6 +179,7 @@ func (a *App) onReady() {
 
 }
 func (a *App) exit() {
+	ghook.StopEvent()
 	for _, module := range a.module {
 		if module.exit != nil {
 			go module.exit()
@@ -213,15 +225,16 @@ type title struct {
 //<editor-fold desc="模块结构体">
 
 type Module struct {
-	onReady  func(item *systray.MenuItem)
-	exit     func()
-	app      *App
-	name     string
-	itemName string
-	tooltip  string
-	Config   interface{}
-	route    func(*ghttp.RouterGroup)
-	Port     uint16
+	onReady   func(item *systray.MenuItem)
+	exit      func()
+	app       *App
+	name      string
+	itemName  string
+	tooltip   string
+	Config    interface{}
+	route     func(*ghttp.RouterGroup)
+	Port      uint16
+	eventChan chan ghook.Event
 }
 
 func (m *Module) UnmarshalConfig(dst interface{}) error {
@@ -265,6 +278,10 @@ func (m *Module) GetAPPName() string {
 }
 func (m *Module) GetAPPVersion() string {
 	return m.app.version
+}
+func (m *Module) RegEvent() chan ghook.Event {
+	m.eventChan = make(chan ghook.Event, 0)
+	return m.eventChan
 }
 
 //</editor-fold>

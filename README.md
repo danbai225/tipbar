@@ -8,7 +8,7 @@
 
 <p align="center">
 <a href="https://github.com/danbai225/tipbar" target="_blank">
-<img src="https://img.shields.io/badge/version-v0.0.3-blue?style=for-the-badge&logo=none" alt="tipBar version" /></a>&nbsp
+<img src="https://img.shields.io/badge/version-v0.1.1-blue?style=for-the-badge&logo=none" alt="tipBar version" /></a>&nbsp
 <a href="https://pkg.go.dev/github.com/danbai225/tipbar?tab=doc" target="_blank">
 <img src="https://img.shields.io/badge/Go-1.17+-00ADD8?style=for-the-badge&logo=go" alt="go version" /></a>&nbsp;
 <a href="https://gocover.io/github.com/danbai225/tipbar" target="_blank"><img src="https://img.shields.io/badge/Go_Cover-89.2%25-success?style=for-the-badge&logo=none" alt="go cover" />

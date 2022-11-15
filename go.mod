@@ -1,6 +1,6 @@
 module github.com/danbai225/tipbar
 
-go 1.17
+go 1.18
 
 require (
 	fyne.io/systray v1.10.0
